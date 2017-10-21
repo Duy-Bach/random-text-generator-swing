@@ -7,6 +7,7 @@ public class MarkovBuilder {
 	
 	private String input[];
 	private final int NUM_PREFS = 2;
+	private final int NUM_HASH = 4093;
 	private final int NUM_MAX_GEN = 100;
 	private final HashMap<Integer, ArrayList<Prefix>> builderMap = new HashMap<>();
 	
@@ -24,8 +25,23 @@ public class MarkovBuilder {
 		
 		build();
 		String result = "";
+		
+		// Initial values
+		for (int i = 0; i < NUM_PREFS; ++i) result += input[i] + " ";
+		Prefix cur = new Prefix(NUM_PREFS, NUM_HASH);
+		cur.init(input);
+		
 		for (int words = NUM_PREFS; words <= NUM_MAX_GEN; words++) {
+			int hash = cur.hashCode(), prefIndx = -1;
 			
+			ArrayList<Prefix> listPrefix = builderMap.get(hash);
+			
+			if (listPrefix == null || (prefIndx = listPrefix.indexOf(cur)) == -1)
+				break;
+			
+			String next = listPrefix.get(prefIndx).randomSuf();
+			result += next + " ";
+			cur.update(next);
 		}
 		
 		return result;
@@ -38,8 +54,28 @@ public class MarkovBuilder {
 	 * @return none This method only mutate is member with no return value for external purposes
 	 */
 	private void build() {
+		Prefix cur = new Prefix(NUM_PREFS, NUM_HASH);
+		cur.init(input);
 		
-		
-		
+		for (int index = NUM_PREFS; index < input.length; ++index) {
+			int hash = cur.hashCode();
+			if (!builderMap.containsKey(hash)) {
+				builderMap.put(hash, new ArrayList<Prefix>());
+				builderMap.get(hash).add(new Prefix(cur));
+			}
+			ArrayList<Prefix> listPrefix = builderMap.get(hash);
+			
+			int prefIndx = -1;
+			if ((prefIndx = listPrefix.indexOf(cur)) == -1) {
+				listPrefix.add(new Prefix(cur));
+				prefIndx = listPrefix.size() - 1;
+			}
+				
+			Prefix add = listPrefix.get(prefIndx);
+			add.addSuf(input[index]);
+			builderMap.put(hash, listPrefix);
+			
+			cur.update(input[index]);
+		}
 	}
 }

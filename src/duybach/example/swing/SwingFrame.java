@@ -54,6 +54,7 @@ public class SwingFrame extends JFrame {
 		
 		builderTextArea = new JTextArea(2, 5);
 		builderTextArea.setLineWrap(true);
+		builderTextArea.setWrapStyleWord(true);
 		builderTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		builderTextWrapper = new JScrollPane(builderTextArea);
@@ -62,9 +63,11 @@ public class SwingFrame extends JFrame {
 		
 		generatedTextArea = new JTextArea(2, 5);
 		generatedTextArea.setLineWrap(true);
+		generatedTextArea.setWrapStyleWord(true);
 		generatedTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
 		generatedTextArea.setEditable(false);
 		generatedTextArea.setText("Please insert builder string first...");
+
 		
 		generatedTextWrapper = new JScrollPane(generatedTextArea);
 		generatedTextWrapper.setBounds(12, 170, 430, 100);
