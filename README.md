@@ -7,8 +7,7 @@ Instruction:
 
 2. Build and run
 `cd random-text-generator-swing
-./run.sh
-`
+&& ./run.sh`
 3. Have fun
 
 Note: This application was originally built with javac 1.8.0_131
