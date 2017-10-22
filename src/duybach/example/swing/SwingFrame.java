@@ -11,20 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import duybach.example.MarkovBuilder;
 
+@SuppressWarnings("serial")
 public class SwingFrame extends JFrame {
-
-	private JPanel contentPane;
-	private JTextArea builderTextArea, generatedTextArea;
-	private JScrollPane builderTextWrapper, generatedTextWrapper;
-	private JButton button;
-	private JSpinner spinner;
 
 	/**
 	 * Launch the application.
@@ -41,6 +35,12 @@ public class SwingFrame extends JFrame {
 			}
 		});
 	}
+	private JPanel contentPane;
+	private JTextArea builderTextArea, generatedTextArea;
+	private JScrollPane builderTextWrapper, generatedTextWrapper;
+	private JButton button;
+
+	private JSpinner spinner;
 
 	/**
 	 * Create the frame.
