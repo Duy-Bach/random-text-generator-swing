@@ -4,14 +4,16 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
 import duybach.example.MarkovBuilder;
@@ -22,6 +24,7 @@ public class SwingFrame extends JFrame {
 	private JTextArea builderTextArea, generatedTextArea;
 	private JScrollPane builderTextWrapper, generatedTextWrapper;
 	private JButton button;
+	private JSpinner spinner;
 
 	/**
 	 * Launch the application.
@@ -96,10 +99,22 @@ public class SwingFrame extends JFrame {
 		});
 		
 		contentPane.add(button);
+		
+		JLabel lblNumPrefix = new JLabel("Number of prefix: ");
+		lblNumPrefix.setBounds(270, 10, 150,15);
+		contentPane.add(lblNumPrefix);
+		
+		SpinnerNumberModel model = new SpinnerNumberModel(2, 1, 5, 1);
+		spinner = new JSpinner(model);
+		spinner.setBounds(400, 7, 35, 20);
+		spinner.setEditor(new JSpinner.DefaultEditor(spinner));
+		//((DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
+		// spinner.setName("Test");
+		contentPane.add(spinner);
 	}
 	
 	private void generateText(String[] input) {
-		MarkovBuilder builder = new MarkovBuilder(input);
+		MarkovBuilder builder = new MarkovBuilder(input, (int) spinner.getValue());
 		generatedTextArea.setText(builder.generate());
 	}
 }

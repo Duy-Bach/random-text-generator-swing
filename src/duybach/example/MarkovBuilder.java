@@ -6,13 +6,14 @@ import java.util.HashMap;
 public class MarkovBuilder {
 	
 	private String input[];
-	private final int NUM_PREFS = 2;
+	private int numPrefs = 2;
 	private final int NUM_HASH = 4093;
 	private final int NUM_MAX_GEN = 100;
 	private final HashMap<Integer, ArrayList<Prefix>> builderMap = new HashMap<>();
 	
-	public MarkovBuilder(String input[]) {
+	public MarkovBuilder(String input[], int numPrefs) {
 		this.input = input;
+		this.numPrefs = numPrefs;
 	}
 	
 	/* 
@@ -21,17 +22,17 @@ public class MarkovBuilder {
 	 * @return String result of Markov-Chain random text generation algorithm
 	 */
 	public String generate() {
-		if (input.length <= 3 * NUM_PREFS) return "Builder string is too short...";
+		if (input.length <= 3 * numPrefs) return "Builder string is too short...";
 		
 		build();
 		String result = "";
 		
 		// Initial values
-		for (int i = 0; i < NUM_PREFS; ++i) result += input[i] + " ";
-		Prefix cur = new Prefix(NUM_PREFS, NUM_HASH);
+		for (int i = 0; i < numPrefs; ++i) result += input[i] + " ";
+		Prefix cur = new Prefix(numPrefs, NUM_HASH);
 		cur.init(input);
 		
-		for (int words = NUM_PREFS; words <= NUM_MAX_GEN; words++) {
+		for (int words = numPrefs; words <= NUM_MAX_GEN; words++) {
 			int hash = cur.hashCode(), prefIndx = -1;
 			
 			ArrayList<Prefix> listPrefix = builderMap.get(hash);
@@ -54,10 +55,10 @@ public class MarkovBuilder {
 	 * @return none This method only mutate is member with no return value for external purposes
 	 */
 	private void build() {
-		Prefix cur = new Prefix(NUM_PREFS, NUM_HASH);
+		Prefix cur = new Prefix(numPrefs, NUM_HASH);
 		cur.init(input);
 		
-		for (int index = NUM_PREFS; index < input.length; ++index) {
+		for (int index = numPrefs; index < input.length; ++index) {
 			int hash = cur.hashCode();
 			if (!builderMap.containsKey(hash)) {
 				builderMap.put(hash, new ArrayList<Prefix>());
