@@ -3,10 +3,10 @@ A simple Java Swing application featuring Markov-Chain random text generation al
 
 Instruction:
 1. Clone the project
- \n`git clone https://github.com/Duy-Bach/random-text-generator-swing`
+ `\ngit clone https://github.com/Duy-Bach/random-text-generator-swing`
 
 2. Build and run
- \n`cd random-text-generator-swing
+ `\ncd random-text-generator-swing
 && ./run.sh`
 3. Have fun
 
