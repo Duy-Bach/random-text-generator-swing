@@ -30,12 +30,6 @@ public class Prefix {
 		sufs.add(suf);
 	}
 	
-	public void init(String input[]) {
-		for (int i = 0; i < numPrefs; ++i) {
-			prefs.add(new String(input[i]));
-		}
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj.getClass() != Prefix.class) return false;
@@ -56,6 +50,12 @@ public class Prefix {
 			h = MULTIPLIER * h + pref.hashCode();
 		}
 		return (h & 0x7FFFFFF) % numHash;
+	}
+	
+	public void init(String input[]) {
+		for (int i = 0; i < numPrefs; ++i) {
+			prefs.add(new String(input[i]));
+		}
 	}
 	
 	public String randomSuf() {

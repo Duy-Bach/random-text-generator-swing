@@ -16,38 +16,6 @@ public class MarkovBuilder {
 		this.numPrefs = numPrefs;
 	}
 	
-	/* 
-	 * This method is an interface to the application when user request text generation process
-	 * @param none
-	 * @return String result of Markov-Chain random text generation algorithm
-	 */
-	public String generate() {
-		if (input.length <= 3 * numPrefs) return "Builder string is too short...";
-		
-		build();
-		String result = "";
-		
-		// Initial values
-		for (int i = 0; i < numPrefs; ++i) result += input[i] + " ";
-		Prefix cur = new Prefix(numPrefs, NUM_HASH);
-		cur.init(input);
-		
-		for (int words = numPrefs; words <= NUM_MAX_GEN; words++) {
-			int hash = cur.hashCode(), prefIndx = -1;
-			
-			ArrayList<Prefix> listPrefix = builderMap.get(hash);
-			
-			if (listPrefix == null || (prefIndx = listPrefix.indexOf(cur)) == -1)
-				break;
-			
-			String next = listPrefix.get(prefIndx).randomSuf();
-			result += next + " ";
-			cur.update(next);
-		}
-		
-		return result;
-	}
-	
 	/*
 	 * Markov-Chain random text generation algorithm requires 2 passes over the input string
 	 * This is the first pass, creating the list of PREFIX and SUFFIX used to generate text
@@ -78,5 +46,37 @@ public class MarkovBuilder {
 			
 			cur.update(input[index]);
 		}
+	}
+	
+	/* 
+	 * This method is an interface to the application when user request text generation process
+	 * @param none
+	 * @return String result of Markov-Chain random text generation algorithm
+	 */
+	public String generate() {
+		if (input.length <= 3 * numPrefs) return "Builder string is too short...";
+		
+		build();
+		String result = "";
+		
+		// Initial values
+		for (int i = 0; i < numPrefs; ++i) result += input[i] + " ";
+		Prefix cur = new Prefix(numPrefs, NUM_HASH);
+		cur.init(input);
+		
+		for (int words = numPrefs; words <= NUM_MAX_GEN; words++) {
+			int hash = cur.hashCode(), prefIndx = -1;
+			
+			ArrayList<Prefix> listPrefix = builderMap.get(hash);
+			
+			if (listPrefix == null || (prefIndx = listPrefix.indexOf(cur)) == -1)
+				break;
+			
+			String next = listPrefix.get(prefIndx).randomSuf();
+			result += next + " ";
+			cur.update(next);
+		}
+		
+		return result;
 	}
 }
